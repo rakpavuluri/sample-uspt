@@ -15,39 +15,48 @@ export class SampleComponent implements OnInit {
   ngOnInit(): void {
   }
 
+  displayError(str: string) {
+    this.showError = true;
+    this.errorMessage = str;
+  }
+
   validateInput() {
     if (this.inputText) {
       this.errorMessage = null;
       this.showError = false;
       const strs = Array.from(this.inputText.match(/[^\r\n]+/g)).map(item => Number(item));
+      const strVals = Array.from(this.inputText.match(/[^\r\n]+/g)).map(item => String(item));
       if (strs.length > 500) {
-        this.showError = true;
-        this.errorMessage = 'Exceeds more than 500 lines!';
+        this.displayError('Exceeds more than 500 lines!');
         return;
       }
+      const inValidValues = [];
+      // Check for, are all numbers
       let areAllNumbers = true;
-      for (let item of strs) {
-        if (isNaN(item)) {
+      for (let i = 0; i < strs.length; i++) {
+        if (isNaN(strs[i])) {
           areAllNumbers = false;
-          break;
+          inValidValues.push(strVals[i]);
         }
       }
-      if (!areAllNumbers) {
-        this.showError = true;
-        this.errorMessage = 'Not all are Numbers! Please Check Again!';
-        return;
-      }
+      // if (!areAllNumbers) {
+      //   this.displayError('Following are not numbers: ' + inValidValues.join(', '));
+      // }
+      // Check for, are all of valid length
       let areAllSameLength = true;
-      for (let item of strs) {
-        const str = item.toString().split('');
+      for (let i = 0; i < strs.length; i++) {
+        const str = strs[i].toString().split('');
         if (str.length != 8) {
           areAllSameLength = false;
-          break;
+          inValidValues.push(strVals[i]);
         }
       }
-      if (!areAllSameLength) {
-        this.showError = true;
-        this.errorMessage = 'Please Check that all the IDs must be of length 8';
+      const uniqueArray = inValidValues.filter(function (item, pos) {
+        return inValidValues.indexOf(item) == pos;
+      })
+      // Displaying all errors
+      if (!areAllSameLength || !areAllNumbers) {
+        this.displayError('Following are the errors: ' + uniqueArray.join(', '));
         return;
       }
     }
