@@ -1,4 +1,6 @@
-<p *ngIf="showError">{{errorMessage}}</p>
+<p *ngIf="showError">{{showTrimmedMsg(errorMessage)}}
+    <span *ngIf="checkErrorMessageLength()" (click)="showMoreErrorMsg()"><br>Show More...</span>
+</p>
 <textarea [(ngModel)]="inputText"></textarea>
 <br>
 <button type="button" (click)="validateInput()">Submit</button>

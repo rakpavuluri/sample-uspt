@@ -10,12 +10,15 @@ export class SampleComponent implements OnInit {
   showError = false;
   inputText: string;
   errorMessage: string;
+  errorLengthLimit = 80;
+  showMore = false;
   constructor() { }
 
   ngOnInit(): void {
   }
 
   displayError(str: string) {
+    this.showMore = false;
     this.showError = true;
     this.errorMessage = str;
   }
@@ -59,6 +62,26 @@ export class SampleComponent implements OnInit {
         this.displayError('Following are the errors: ' + uniqueArray.join(', '));
         return;
       }
+    }
+  }
+
+  checkErrorMessageLength() {
+    if (this.errorMessage.split('').length > this.errorLengthLimit && !this.showMore) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  showMoreErrorMsg() {
+    this.showMore = !this.showMore;
+  }
+
+  showTrimmedMsg(str: string) {
+    if (!this.showMore) {
+      return str.substring(0, this.errorLengthLimit);
+    } else {
+      return str;
     }
   }
 
