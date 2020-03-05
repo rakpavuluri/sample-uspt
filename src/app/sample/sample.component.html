@@ -1,5 +1,5 @@
 <p *ngIf="showError">{{showTrimmedMsg(errorMessage)}}
-    <span *ngIf="checkErrorMessageLength()" (click)="showMoreErrorMsg()"><br>Show More...</span>
+    <span *ngIf="checkErrorMessageLength()" (click)="showMoreErrorMsg()">&nbsp;&nbsp;view more...</span>
 </p>
 <textarea [(ngModel)]="inputText"></textarea>
 <br>

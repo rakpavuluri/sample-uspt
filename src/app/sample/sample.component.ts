@@ -36,12 +36,6 @@ export class SampleComponent implements OnInit {
       const inValidValues = [];
       // Check for, are all numbers
       let areAllNumbers = true;
-      for (let i = 0; i < strs.length; i++) {
-        if (isNaN(strs[i])) {
-          areAllNumbers = false;
-          inValidValues.push(strVals[i]);
-        }
-      }
       // if (!areAllNumbers) {
       //   this.displayError('Following are not numbers: ' + inValidValues.join(', '));
       // }
@@ -51,6 +45,10 @@ export class SampleComponent implements OnInit {
         const str = strs[i].toString().split('');
         if (str.length != 8) {
           areAllSameLength = false;
+          inValidValues.push(strVals[i]);
+        }
+        if (isNaN(strs[i])) {
+          areAllNumbers = false;
           inValidValues.push(strVals[i]);
         }
       }
@@ -79,7 +77,8 @@ export class SampleComponent implements OnInit {
 
   showTrimmedMsg(str: string) {
     if (!this.showMore) {
-      return str.substring(0, this.errorLengthLimit);
+      const initialErrors = str.split(',')[0] + ', ' + str.split(',')[1];
+      return initialErrors;
     } else {
       return str;
     }
