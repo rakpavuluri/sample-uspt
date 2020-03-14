@@ -119,10 +119,12 @@ export class SampleComponent implements OnInit {
     const fromDate = new Date(this.dateValues.fromDate);
     const toDate = new Date(this.dateValues.toDate);
     const pastYearDate = new Date();
+    const futureYearDate = new Date();
     const validToDate = new Date(fromDate);
     pastYearDate.setDate(pastYearDate.getDate() - 365);
+    futureYearDate.setDate(futureYearDate.getDate() + 365);
     validToDate.setDate(validToDate.getDate() + 7);
-    if (fromDate < pastYearDate || toDate < pastYearDate) {
+    if (fromDate < pastYearDate || toDate < pastYearDate || fromDate > futureYearDate || toDate > futureYearDate) {
       this.dateValidationError = 'Please choose dates within the past year';
       return false;
     }
