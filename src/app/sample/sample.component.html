@@ -1,6 +1,24 @@
-<p *ngIf="showError">{{showTrimmedMsg(errorMessage)}}
+<!-- <p *ngIf="showError">{{showTrimmedMsg(errorMessage)}}
     <span *ngIf="checkErrorMessageLength()" (click)="showMoreErrorMsg()">&nbsp;&nbsp;view more...</span>
 </p>
 <textarea [(ngModel)]="inputText"></textarea>
 <br>
-<button type="button" (click)="validateInput()">Submit</button>
+<button type="button" (click)="validateInput()">Submit</button> -->
+
+<p>
+    {{dateValidationError}}
+</p>
+
+<div class="row">
+   
+    <div class="col-xs-12 col-12 col-md-4 form-group">
+        <input type="text" placeholder="Datepicker" class="form-control" bsDatepicker [(ngModel)]="dateValues.fromDate" (bsValueChange)="onFromDateValueChange($event)">
+        <!-- [minDate]="minFromDate" (bsValueChange)="onFromDateValueChange($event)" -->
+    </div>
+    <div class="col-xs-12 col-12 col-md-4 form-group">
+        <input type="text" placeholder="Datepicker" class="form-control" bsDatepicker [(ngModel)]="dateValues.toDate" [minDate]="minToDate" (bsValueChange)="onToDateValueChange($event)">
+         <!-- [minDate]="minToDate" [maxDate]="maxToDate" (bsValueChange)="onToDateValueChange($event)" -->
+    </div>
+
+    <button (click)="verifyDates()" [disabled]="!checkIfDatesAreValid()">Generate Report</button>
+</div>

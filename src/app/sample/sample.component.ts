@@ -1,5 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 
+import { FormGroup, FormBuilder } from '@angular/forms';
+import { BsLocaleService, defineLocale } from 'ngx-bootstrap'
+import { itLocale } from 'ngx-bootstrap/locale';
+
 @Component({
   selector: 'app-sample',
   templateUrl: './sample.component.html',
@@ -12,7 +16,21 @@ export class SampleComponent implements OnInit {
   errorMessage: string;
   errorLengthLimit = 80;
   showMore = false;
-  constructor() { }
+
+  dateValues = {
+    fromDate: null,
+    toDate: null
+  };
+
+  dateValidationError = '';
+
+  maxToDate = null;
+  minToDate = null;
+  minFromDate = null;
+
+  constructor(private formBuilder: FormBuilder, private localeService: BsLocaleService) {
+    this.setMinDates();
+  }
 
   ngOnInit(): void {
   }
@@ -64,7 +82,7 @@ export class SampleComponent implements OnInit {
   }
 
   checkErrorMessageLength() {
-    if (this.errorMessage.split('').length > this.errorLengthLimit && !this.showMore) {
+    if (this.errorMessage.split(', ').length > 2 && !this.showMore) {
       return true;
     } else {
       return false;
@@ -77,11 +95,76 @@ export class SampleComponent implements OnInit {
 
   showTrimmedMsg(str: string) {
     if (!this.showMore) {
-      const initialErrors = str.split(',')[0] + ', ' + str.split(',')[1];
+      let initialErrors = '';
+      // if (str.split(', ').length > 2) {
+      //   for (let item of str.split(',')) {
+      //     if(initialErrors.split(', ').length <= this.errorLengthLimit){
+      //       initialErrors += ', ' + item;
+      //     }
+      //   }
+      //   initialErrors = initialErrors.slice(2);
+      // } else {
+      initialErrors = str.split(',').length === 1 ? str.split(',')[0] : (str.split(',')[0] + ', ' + str.split(',')[1]);
+      // }
       return initialErrors;
     } else {
       return str;
     }
   }
+
+
+  // --------------------------------------------------------- Date Functions -------------------------------------------
+
+  verifyDates() {
+    const fromDate = new Date(this.dateValues.fromDate);
+    const toDate = new Date(this.dateValues.toDate);
+    const pastYearDate = new Date();
+    const validToDate = new Date(fromDate);
+    pastYearDate.setDate(pastYearDate.getDate() - 365);
+    validToDate.setDate(validToDate.getDate() + 7);
+    if (fromDate < pastYearDate || toDate < pastYearDate) {
+      this.dateValidationError = 'Please choose dates within the past year';
+      return false;
+    }
+    // if(toDate > validToDate){
+    //   this.dateValidationError = 'Please choose from 1 to 7 days';
+    //   return false;
+    // }
+    if (fromDate <= toDate && toDate <= validToDate) {
+      console.log('Success');
+    } else {
+      this.dateValidationError = 'Please choose from 1 to 7 days';
+      return false;
+    }
+  }
+
+  onFromDateValueChange(event: any) {
+    // var maxToDate = new Date(event);
+    // maxToDate.setDate(maxToDate.getDate() + 7);
+    // this.maxToDate = maxToDate;
+    // this.minToDate = event;
+    this.dateValidationError = '';
+  }
+
+  setMinDates() {
+    var minDate = new Date();
+    minDate.setDate(minDate.getDate() - 365);
+    this.minToDate = minDate;
+    this.minFromDate = minDate;
+  }
+
+  onToDateValueChange(event: any) {
+    console.log(event);
+    this.dateValidationError = '';
+  }
+
+  checkIfDatesAreValid() {
+    if (this.dateValues.fromDate && this.dateValues.toDate) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
 
 }
