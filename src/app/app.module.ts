@@ -13,6 +13,7 @@ import { MomentPipe } from './sample/moment.pipe';
 import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
 import { AppRoutingModule } from './app-routing.module';
 import { ReportGeneratedComponent } from './report-generated/report-generated.component';
+import { TabsModule } from 'ngx-bootstrap';
 
 @NgModule({
   declarations: [
@@ -27,7 +28,8 @@ import { ReportGeneratedComponent } from './report-generated/report-generated.co
     ReactiveFormsModule,
     AppRoutingModule,
     BsDatepickerModule.forRoot(),
-    MomentModule
+    MomentModule,
+    TabsModule.forRoot()
   ],
   providers: [],
   bootstrap: [AppComponent]
