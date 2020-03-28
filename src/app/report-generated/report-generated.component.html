@@ -1,6 +1,6 @@
 <div>
     <tabset>
-      <tab *ngFor="let tab of tabs" [heading]="tab.title" id="{{'tab'+tab.id}}" [active]="tab.active">
+      <tab *ngFor="let tab of tabs" [heading]="tab.title" id="{{'tab'+tab.id}}" [active]="tab.active" (selectTab)="selectTabActive(tab.id)">
           <ng-container *ngIf="tab.contentType === 'table'">
             <table>
                 <tbody>

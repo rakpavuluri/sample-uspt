@@ -64,4 +64,12 @@ export class ReportGeneratedComponent implements OnInit {
     }, 300);
   }
 
+  selectTabActive(id: number) {
+    setTimeout(() => {
+      this.tabs.forEach((item) => {
+        item.active = item.id === id ? true : false;
+      });
+    }, 200);
+  }
+
 }
