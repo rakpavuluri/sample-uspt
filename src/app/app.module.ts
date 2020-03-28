@@ -11,17 +11,21 @@ import { MomentPipe } from './sample/moment.pipe';
 
 // RECOMMENDED
 import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
+import { AppRoutingModule } from './app-routing.module';
+import { ReportGeneratedComponent } from './report-generated/report-generated.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    SampleComponent
+    SampleComponent,
+    ReportGeneratedComponent
   ],
   imports: [
     BrowserModule,
     FormsModule,
     BrowserAnimationsModule,
     ReactiveFormsModule,
+    AppRoutingModule,
     BsDatepickerModule.forRoot(),
     MomentModule
   ],

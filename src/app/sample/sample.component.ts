@@ -3,6 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder } from '@angular/forms';
 import { BsLocaleService, defineLocale } from 'ngx-bootstrap'
 import { itLocale } from 'ngx-bootstrap/locale';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-sample',
@@ -27,8 +28,9 @@ export class SampleComponent implements OnInit {
   maxToDate = null;
   minToDate = null;
   minFromDate = null;
+  maxFromDate = null;
 
-  constructor(private formBuilder: FormBuilder, private localeService: BsLocaleService) {
+  constructor(private formBuilder: FormBuilder, private localeService: BsLocaleService, private router: Router) {
     this.setMinDates();
   }
 
@@ -78,6 +80,7 @@ export class SampleComponent implements OnInit {
         this.displayError('Following are the errors: ' + uniqueArray.join(', '));
         return;
       }
+      this.router.navigateByUrl('/report-generated');
     }
   }
 
@@ -133,7 +136,7 @@ export class SampleComponent implements OnInit {
     //   return false;
     // }
     if (fromDate <= toDate && toDate <= validToDate) {
-      console.log('Success');
+      this.router.navigateByUrl('/report-generated');
     } else {
       this.dateValidationError = 'Please choose from 1 to 7 days';
       return false;
@@ -141,18 +144,22 @@ export class SampleComponent implements OnInit {
   }
 
   onFromDateValueChange(event: any) {
-    // var maxToDate = new Date(event);
-    // maxToDate.setDate(maxToDate.getDate() + 7);
-    // this.maxToDate = maxToDate;
-    // this.minToDate = event;
+    var maxToDate = new Date(event);
+    maxToDate.setDate(maxToDate.getDate() + 7);
+    this.maxToDate = maxToDate;
+    this.minToDate = event;
     this.dateValidationError = '';
   }
 
   setMinDates() {
     var minDate = new Date();
+    var maxDate = new Date();
     minDate.setDate(minDate.getDate() - 365);
+    maxDate.setDate(maxDate.getDate() + 365);
     this.minToDate = minDate;
     this.minFromDate = minDate;
+    this.maxToDate = maxDate;
+    this.maxFromDate = maxDate;
   }
 
   onToDateValueChange(event: any) {
