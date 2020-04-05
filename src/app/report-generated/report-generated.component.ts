@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { GenerateReportService } from '../services/generate-report.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-report-generated',
@@ -42,9 +44,19 @@ export class ReportGeneratedComponent implements OnInit {
       active: false
     }
   ]
-  constructor() { }
+  constructor(private generateReportService: GenerateReportService, private router: Router) { }
 
   ngOnInit(): void {
+    if (this.generateReportService.generateReportObj.type) {
+      this.generateReportService.getReportResults().subscribe((data) => {
+
+      }, error => {
+
+      });
+    } else {
+      console.log('No data found!');
+      this.router.navigateByUrl('/');
+    }
   }
 
   openImage(tab: any) {

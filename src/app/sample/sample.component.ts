@@ -4,6 +4,7 @@ import { FormGroup, FormBuilder } from '@angular/forms';
 import { BsLocaleService, defineLocale } from 'ngx-bootstrap'
 import { itLocale } from 'ngx-bootstrap/locale';
 import { Router } from '@angular/router';
+import { GenerateReportService } from '../services/generate-report.service';
 
 @Component({
   selector: 'app-sample',
@@ -30,7 +31,7 @@ export class SampleComponent implements OnInit {
   minFromDate = null;
   maxFromDate = null;
 
-  constructor(private formBuilder: FormBuilder, private localeService: BsLocaleService, private router: Router) {
+  constructor(private formBuilder: FormBuilder, private localeService: BsLocaleService, private router: Router, private generateReportService: GenerateReportService) {
     this.setMinDates();
   }
 
@@ -80,6 +81,8 @@ export class SampleComponent implements OnInit {
         this.displayError('Following are the errors: ' + uniqueArray.join(', '));
         return;
       }
+      this.generateReportService.generateReportObj.type = 'numeric';
+      this.generateReportService.generateReportObj.values = uniqueArray;
       this.router.navigateByUrl('/report-generated');
     }
   }
@@ -136,6 +139,9 @@ export class SampleComponent implements OnInit {
     //   return false;
     // }
     if (fromDate <= toDate && toDate <= validToDate) {
+      this.generateReportService.generateReportObj.type = 'date';
+      this.generateReportService.generateReportObj.fromDate = fromDate;
+      this.generateReportService.generateReportObj.toDate = toDate;
       this.router.navigateByUrl('/report-generated');
     } else {
       this.dateValidationError = 'Please choose from 1 to 7 days';
